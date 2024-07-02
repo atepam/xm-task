@@ -6,6 +6,8 @@
 
 Make a copy of `.env.example` if you do not have a `.env` file!
 
+```cp .env.example .env```
+
 Optionally get an API key for AlphaVantage and add it to `.env` to `ALPHA_VANTAGE_API_KEY`.
 The default key is `demo`.
 
@@ -13,7 +15,9 @@ The default key is `demo`.
 
 ```
 cd <your-project-folder>
+composer install
 ./vendor/bin/sail up -d
+./vendor/bin/sail artisan key:generate
 ./vendor/bin/sail artisan migrate:fresh --seed
 ```
 
@@ -31,7 +35,7 @@ If you want to run tests you may need the testing DB so run migrations for it by
 
 ### Check if the app is running
 
-Go to http://localhost/ in your browser. You should see the home screen of the app.
+Go to http://localhost:8099/ in your browser. You should see the home screen of the app.
 
 
 ## Run Queue Worker and Scheduler
