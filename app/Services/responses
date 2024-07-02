@@ -1,0 +1,82 @@
+GET https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=IBM&apikey=demo
+{
+    "Global Quote": {
+        "01. symbol": "IBM",
+        "02. open": "175.0000",
+        "03. high": "178.4599",
+        "04. low": "174.1500",
+        "05. price": "175.0100",
+        "06. volume": "4864735",
+        "07. latest trading day": "2024-06-24",
+        "08. previous close": "172.4600",
+        "09. change": "2.5500",
+        "10. change percent": "1.4786%"
+    }
+}
+
+
+GET https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=ibm&apikey=EBXCKK6L4Z2KPWOA
+{
+    "Information": "Thank you for using Alpha Vantage! Our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
+}
+
+https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=NOTEXISTINGSYMBOL&apikey=EBXCKK6L4Z2KPWOA
+{
+    "Global Quote": {}
+}
+
+
+
+
+
+---
+
+
+andor@EPHUBUDW018A:~/projects/example2$ curl -vvv --location 'http://localhost:80/api/latest-prices' --header 'Content-Type: application/json' --header 'Authorization: Bearer 2|GJqpQYQsjOAcZ8L5yO35HWG1ahOItKFl7yR9yDNw8e746e02'
+*   Trying 127.0.0.1:80...
+* Connected to localhost (127.0.0.1) port 80 (#0)
+> GET /api/latest-prices HTTP/1.1
+> Host: localhost
+> User-Agent: curl/7.81.0
+> Accept: */*
+> Content-Type: application/json
+> Authorization: Bearer 2|GJqpQYQsjOAcZ8L5yO35HWG1ahOItKFl7yR9yDNw8e746e02
+>
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< Host: localhost
+< Connection: close
+< X-Powered-By: PHP/8.3.8
+< Cache-Control: no-cache, private
+< Date: Tue, 02 Jul 2024 11:15:50 GMT
+< Content-Type: application/json
+< Access-Control-Allow-Origin: *
+<
+{"IBM":{"symbol":"IBM","open":190.362,"high":251.362,"low":128.362,"price":196.362,"volume":16971504,"latest_trading_date":"2024-06-24","prev_close":192.362,"change":4,"change_percent":5,"time":"2024-07-02 11:15:03","id":8282},"SAIC":{"symbol":"SAIC","open":297.793,"high":370.793,"low":225.793,"price":303.793,"volume":24207308,"latest_trading_date":"2024-06-24","prev_close":290.793,"change":5,"change_percent":5.3333333333333,"time":"2024-07-02 11:15:03","id":8283},"SAICX":{"symbol":"SAICX","open":186.214,"high":208.214,"low":162.214,"price":197.214,"volume":14219584,"latest_trading_date":"2024-06-24","prev_close":178.214,"change":4,"change_percent":7.3333333333333,"time":"2024-07-02 11:15:03","id":8284},"BA":{"symbol":"BA","open":151.857,"high":154.857,"low":109.857,"price":158.857,"volume":10117125,"latest_trading_date":"2024-06-24","prev_close":170.857,"change":4,"change_percent":6.6666666666667,"time":"2024-07-02 11:15:03","id":8285},"BAB":{"symbol":"BAB","open":217.727,"high":283.727,"low":141.727,"price":220.727,"volume":1233559,"latest_trading_date":"2024-06-24","prev_close":232.727,"change":4,"change_percent":7.3333333333333,"time":"2024-07-02 11:15:03","id":8286},"BABA":{"symbol":"BABA","open":123.766,"high":165.766,"low":81.766,"price":128.766,"volume":30866381,"latest_trading_date":"2024-06-24","prev_close":115.766,"change":5,"change_percent":6.3333333333333,"time":"2024-07-02 11:15:03","id":8287},"BAAPX":{"symbol":"BAAPX","open":182.548,"high":219.548,"low":113.548,"price":185.548,"volume":8112740,"latest_trading_date":"2024-06-24","prev_close":177.548,"change":3,"change_percent":5.6666666666667,"time":"2024-07-02 11:15:03","id":8288},"BAAAFX":{"symbol":"BAAAFX","open":272.714,"high":343.714,"low":242.714,"price":275.714,"volume":25921275,"latest_trading_date":"2024-06-24","prev_close":264.714,"change":3,"change_percent":3,"time":"2024-07-02 11:15:03","id":8289},"BAAX39.SAO":{"symbol":"BAAX39.SAO","open":167.527,"high":200.527,"low":141.527,"price":172.527,"volume":7026601,"latest_trading_date":"2024-06-24","prev_close":158.527,"change":3,"change_percent":6,"time":"2024-07-02 11:15:03","id":8290},"AB3.LON":{"symbol":"AB3.LON","open":204.366,"high":209.366,"low":137.366,"price":205.366,"volume":10611933,"latest_trading_date":"2024-06-24","prev_close":216.366,"change":4,"change_percent":2.3333333333333,"time":"2024-07-02 11:15:03","id":8291},"BA3.FRK":{"symbol":"BA3.FRK","open":163.32,"high":170.32,"low":143.32,"price":168.32,"volume":495229,"latest_trading_date":"2024-06-24","prev_close":172.32,"change":5,"change_percent":2.3333333333333,"time":"2024-07-02 11:15:03","id":8292},"BA.LON":{"symbol":"BA.LON","open":241.721,"high":280.721,"low":212.721,"price":252.721,"volume":6351132,"latest_trading_date":"2024-06-24","prev_close":240.721,"change":3,"change_percent":4.3333333333333,"time":"2024-07-02 11:15:03","id":8293},"600104.SHH":{"symbol":"600104.SHH","open":141.152,"high":150.152,"low":112.152,"price":153.152,"volume":2680283,"latest_trading_date":"2024-06-24","prev_close":142.152,"change":4,"change_perce* Closing connection 0
+nt":7.3333333333333,"time":"2024-07-02 11:15:03","id":8294}}
+
+
+---
+andor@EPHUBUDW018A:~/projects/example2$ curl -vvv --location 'http://localhost:80/api/latest-prices/report' --header 'Content-Type: application/json' --header 'Authorization: Bearer 1|1YUSKgDRSxYB1hlXBfWNJEEg1
+9KhfmkHudCvE9Yvf6f23926'
+*   Trying 127.0.0.1:80...
+* Connected to localhost (127.0.0.1) port 80 (#0)
+> GET /api/latest-prices/report HTTP/1.1
+> Host: localhost
+> User-Agent: curl/7.81.0
+> Accept: */*
+> Content-Type: application/json
+> Authorization: Bearer 1|1YUSKgDRSxYB1hlXBfWNJEEg19KhfmkHudCvE9Yvf6f23926
+>
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< Host: localhost
+< Connection: close
+< X-Powered-By: PHP/8.3.8
+< Cache-Control: no-cache, private
+< Date: Tue, 02 Jul 2024 12:56:14 GMT
+< Content-Type: application/json
+< Access-Control-Allow-Origin: *
+<
+{"IBM":{"symbol":"IBM","price":185.21,"change_percent":0,"time":"2024-07-02 12:56:01"},"SAIC":{"symbol":"SAIC","price":291.38,"change_percent":0,"time":"2024-07-02 12:56:01"},"SAICX":{"symbol":"SAICX","price":132.233,"change_percent":0,"time":"2024-07-02 12:56:01"},"BA":{"symbol":"BA","price":156.721,"change_percent":0,"time":"2024-07-02 12:56:02"},"BAB":{"symbol":"BAB","price":191.993,"change_percent":0,"time":"2024-07-02 12:56:02"},"BABA":{"symbol":"BABA","price":186.061,"change_percent":0,"time":"2024-07-02 12:56:02"},"BAAPX":{"symbol":"BAAPX","price":279.74,"change_percent":0,"time":"2024-07-02 12:56:02"},"BAAAFX":{"symbol":"BAAAFX","price":128.098,"change_percent":0,"time":"2024-07-02 12:56:02"},"BAAX39.SAO":{"symbol":"BAAX39.SAO","price":143.207,"change_percent":0,"time":"2024-07-02 12:56:02"},"AB3.LON":{"symbol":"AB3.LON","price":254.715,"change_percent":0,"time":"2024-07-02 12:56:02"},"BA3.FRK":{"symbol":"BA3.FRK","price":114.01,"change_percent":0,"time":"2024-07-02 12:56:02"},"BA.LON":{"symbol":"BA.L* Closing connection 0
+ON","price":224.935,"change_percent":0,"time":"2024-07-02 12:56:02"},"600104.SHH":{"symbol":"600104.SHH","price":258.88,"change_percent":0,"time":"2024-07-02 12:56:02"}}
