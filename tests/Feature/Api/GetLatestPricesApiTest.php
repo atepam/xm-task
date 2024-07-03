@@ -38,10 +38,7 @@ class GetLatestPricesApiTest extends TestCase
 
         $response = $this->callLatestPricesApiRoute();
 
-        foreach ($symbols as $symbol) {
-            $this->assertIsArray($response->json()[$symbol]);
-            $this->assertNotEmpty($response->json()[$symbol]);
-        }
+        $this->assertResponseHasValidDataForEachSymbol($response, $symbols);
     }
 
     #[Test]
@@ -56,13 +53,29 @@ class GetLatestPricesApiTest extends TestCase
 
         $this->assertEquals(count($symbols), count($response->json()));
 
-        foreach ($symbols as $symbol) {
-            $this->assertIsArray($response->json()[$symbol]);
-        }
+        $this->assertIsArray($response->json());
+
+        $this->assertResponseHasValidDataForEachSymbol($response, $symbols);
     }
 
     protected function callLatestPricesApiRoute(): TestResponse
     {
         return $this->getJson(route('api-latest-prices'));
+    }
+
+    protected function assertResponseHasValidDataForEachSymbol(TestResponse $response, array $symbols): void
+    {
+        $responseData = $response->json();
+
+        $this->assertIsArray($responseData);
+
+        $responseCollection = collect($responseData);
+
+        foreach ($symbols as $symbol) {
+            $symbolDataInResponse = $responseCollection->where('symbol', $symbol)->first();
+
+            $this->assertIsArray($symbolDataInResponse);
+            $this->assertNotEmpty($symbolDataInResponse);
+        }
     }
 }

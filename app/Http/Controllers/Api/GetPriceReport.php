@@ -18,7 +18,7 @@ class GetPriceReport extends Controller
     )
     {
         return response()->json(
-            $priceReport->getPriceReport()->all(),
+            $priceReport->getPriceReport()->values(),
             Response::HTTP_OK
         );
     }

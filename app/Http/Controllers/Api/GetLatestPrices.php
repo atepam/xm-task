@@ -18,7 +18,7 @@ class GetLatestPrices extends Controller
     )
     {
         return response()->json(
-            $latestPrices->getLatestPrices()->all(),
+            $latestPrices->getLatestPrices()->values(),
             Response::HTTP_OK
         );
     }

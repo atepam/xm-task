@@ -28,8 +28,14 @@ class GetPricesReportApiTest extends TestCase
 
         $response->assertStatus(Response::HTTP_OK);
 
+        $responseData = $response->json();
+
+        $this->assertIsArray($responseData);
+
+        $responseCollection = collect($responseData);
         foreach ($symbols as $symbol) {
-            $current = $response->json()[$symbol];
+            $current = $responseCollection->where('symbol', $symbol)->first();
+
             $this->assertIsArray($current);
             $this->assertArrayHasKey('symbol', $current);
             $this->assertArrayHasKey('price', $current);
@@ -37,7 +43,6 @@ class GetPricesReportApiTest extends TestCase
             $this->assertArrayHasKey('time', $current);
         }
     }
-
 
 
     protected function callLatestPricesReportApiRoute(): TestResponse
