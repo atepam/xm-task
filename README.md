@@ -45,9 +45,9 @@ Go to http://localhost/ in your browser. You should see the home screen of the a
 ./vendor/bin/sail artisan queue:work
 ```
 
-## Trigger Stock Price Checker Command Manually 
+## Trigger Stock Price Checker Command Manually
 
-You can run the 
+You can run the
 ```
 ./vendor/bin/sail artisan app:refresh-latest-prices
 ```
@@ -72,43 +72,50 @@ The `REPLACE-THIS-WITH-API-TOKEN` part must be replaced with the API token that 
 
 ## Application Architecture
 
-Conceptually latest prices and reports are served from cached data. 
+Conceptually **latest prices and reports are served from cached data** and the app uses as less DB as possible.
+
+- Application's api endpoints are served from cache
+- Cache is maintained by model events (observer)
+- Alpha Vantage API is consumed only in background jobs, and it creates new records only (scheduler, command, job)
+- DB used for selecting latest prices when cache TTL expires.
+
+
 
 The `app:refresh-latest-prices` command (scheduled for every minute) enqueues a `GetLatestPricesJob` job for each ticker that is configured in the `LATEST_PRICES_SYMBOLS` `.env` variable.
 
-The `GetLatestPricesJob` job fetches the AlphaVantage API's [latest price endpoint](https://www.alphavantage.co/documentation/#latestprice) and persists latest price data.
+The `GetLatestPricesJob` job fetches the AlphaVantage API's [latest price endpoint](https://www.alphavantage.co/documentation/#latestprice) and persists latest price data into DB.
 
-The `LatestPriceCandle` model is observed by the `LatestPriceCandleObserver` that listens to `created`, `updated` and `deleted` model events and manages cached data accordingly.
+The `LatestPriceCandle` model is observed by the `LatestPriceCandleObserver` that listens to `created`, `updated` and `deleted` model events and maintains cached data accordingly.
 
 
 
 ## DB Schema
 
 This simple schema is based on that the app has a caching mechanism so the DB is
-queried only when
-- inserting new prices (on 1 minute frequency)
-- cache expires or gets cleared (selects)
+used only when
+- _inserting_ new prices
+- cache TTL expires or gets cleared (_select_)
 
-I did not find the explicit info on currency in the doc, so I supposed
-the [latest price endpoint](https://www.alphavantage.co/documentation/#latestprice) provides price data in USD and 
+Note: I did not find the explicit info on currency in the doc, so I supposed
+the [latest price endpoint](https://www.alphavantage.co/documentation/#latestprice) provides price data in USD and
 no need for additional data about it so the schema does not have a currency field.
 
 
-# Error Handling / Monitoring / Alerting
+## Error Handling / Monitoring / Alerting
 The API has a tight rate limit so the app reaches it very soon. In this case a `RateLimitException` is thrown that is logged on `CRITICAL` level.
-The monitoring/alerting system should be very sensitive for it in production.
+The monitoring/alerting system should be very sensitive for it in real life.
 
-# Fake API service
-To prevent slow responses and fast rate limit issues I have added a fake alpha vantage api server (`tests/alpha_vantage_test_server.php`) to the app that has
-responses for normal and ratelimited cases. This server is configured for tests (`ALPHA_VANTAGE_API_HOST`). 
+## Fake API Service in Local
+To prevent slow responses and reaching rate limit issues I have added a fake alpha vantage api server (`tests/alpha_vantage_test_server.php`) to the app that has
+responses for normal and ratelimited cases. This server is configured for tests (`ALPHA_VANTAGE_API_HOST`).
 
 
-# Possible DB Schema Improvements
+## Possible DB Schema Improvements
 
-The specification does not mention anything about data retention, number of handled symbols, symbols 
+The specification does not mention anything about data retention, number of handled symbols, symbols
 in other currencies or in other intervals (1|3|5|15|30mins etc).
 
-If the app in the future needs to handle various aggregation levels and/or intervals and/or keep data for long time 
+If the app in the future needs to handle various aggregation levels and/or intervals and/or keep data for long time
 it is considerable to improve the schema.
 
 **Ideas**
@@ -117,18 +124,18 @@ it is considerable to improve the schema.
 
 We may store symbols, currencies, intervals in separated tables and use relational schema for prices.
 
-## TODOs
-- add a scheduled background job that maintains the `candles` table by deleting records older than X hours. I would not keep current prices for long. 
+# TODOs
+- add a scheduled background job that maintains the `candles` table by deleting records older than X hours. I would not keep current prices for long.
 
-## AlphaVantage API
+# AlphaVantage API Notes
 
-### Currency and TimeZone
+## Currency and TimeZone
 
 The application is configured to UTC timezone so `candles` table contains `time` in UTC.
 
 Additional info added to field and table level comments in migration.
 
-### apiKey - rate limit - param order - case sensitiveness
+## apiKey - rate limit - param order - case sensitiveness
 
 It seems the rate limit is by IP.
 Until we are within the limit teh apiKey is not checked: it works with random string
