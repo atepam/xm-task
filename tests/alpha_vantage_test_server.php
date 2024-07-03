@@ -6,6 +6,9 @@ if (stristr($_SERVER['PATH_INFO'], 'perfect')) {
 
 } elseif (stristr($_SERVER['PATH_INFO'], 'rate-limit')) {
     $content = getRateLimit();
+
+} elseif (stristr($_SERVER['PATH_INFO'], 'invalid')) {
+    $content = getInvalid();
 }
 
 header('Content-Type: application/json');
@@ -48,5 +51,23 @@ function getRateLimit(): array
 {
     return [
         "Information" => "Thank you for using Alpha Vantage! Our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.",
+    ];
+}
+
+function getInvalid(): array
+{
+    return [
+        "---Global Quote" => [
+            "01. symbol" => '',
+            "02. open" => '',
+            "03. high" => '',
+            "04. low" => '',
+            "05. price" => '',
+            "06. volume" => '',
+            "07. latest trading day" => '',
+            "08. previous close" => '',
+            "09. change" => '',
+            "10. change percent" => '',
+        ]
     ];
 }

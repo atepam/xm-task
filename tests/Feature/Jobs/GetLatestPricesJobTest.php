@@ -7,6 +7,8 @@ use App\Models\LatestPriceCandle;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -23,6 +25,21 @@ class GetLatestPricesJobTest extends TestCase
             $this->runJobForSymbol($symbol);
 
             $this->assertDatabaseHas(LatestPriceCandle::TABLE_NAME, ['symbol' => $symbol,]);
+        }
+    }
+
+    #[Test]
+    public function not_persists_invalid_candle_and_logs_critical_for_each(): void
+    {
+        $this->setApiRespondAsInvalidData();
+
+        $symbols = [self::TEST_SYMBOL];
+
+        Log::shouldReceive('critical')->times(count($symbols));
+
+        foreach ($symbols as $symbol) {
+            $this->runJobForSymbol($symbol);
+            $this->assertDatabaseMissing(LatestPriceCandle::TABLE_NAME, ['symbol' => $symbol,]);
         }
     }
 
@@ -142,5 +159,10 @@ class GetLatestPricesJobTest extends TestCase
     protected function getPreviousCandleFromCache(string $symbol): array
     {
         return $this->getCachedLatestPriceCollection()->get($symbol)['previous'];
+    }
+
+    protected function setApiRespondAsInvalidData(): void
+    {
+        Config::set('services.alphaVantage.apiHost', 'http://localhost/avserver/invalid');
     }
 }
