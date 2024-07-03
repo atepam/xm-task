@@ -26,7 +26,7 @@ function isRunningInLocal(): bool
 {
     return (
             isset($_SERVER['HTTP_HOST'])
-            && $_SERVER['HTTP_HOST'] === 'localhost:8099'
+            && $_SERVER['HTTP_HOST'] === 'localhost'
         )
         && $_SERVER['REQUEST_METHOD'] === 'GET'
         && isset($_SERVER['PATH_INFO'])

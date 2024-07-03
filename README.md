@@ -35,7 +35,7 @@ If you want to run tests you may need the testing DB so run migrations for it by
 
 ### Check if the app is running
 
-Go to http://localhost:8099/ in your browser. You should see the home screen of the app.
+Go to http://localhost/ in your browser. You should see the home screen of the app.
 
 
 ## Run Queue Worker and Scheduler
