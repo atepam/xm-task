@@ -76,9 +76,10 @@ Conceptually latest prices and reports are served from cached data.
 
 The `app:refresh-latest-prices` command (scheduled for every minute) enqueues a `GetLatestPricesJob` job for each ticker that is configured in the `LATEST_PRICES_SYMBOLS` `.env` variable.
 
-The `GetLatestPricesJob` job fetches the AlphaVantage API's [latest price endpoint](https://www.alphavantage.co/documentation/#latestprice) and returns a new instance of ticker latest price data and the job persists it.
+The `GetLatestPricesJob` job fetches the AlphaVantage API's [latest price endpoint](https://www.alphavantage.co/documentation/#latestprice) and persists latest price data.
 
-The `LatestPriceCandle` model is observed by the `LatestPriceCandleObserver` that listens to `created`, `updated` and `deleted` model events and handles cached data accordingly.
+The `LatestPriceCandle` model is observed by the `LatestPriceCandleObserver` that listens to `created`, `updated` and `deleted` model events and manages cached data accordingly.
+
 
 
 ## DB Schema
