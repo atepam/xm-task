@@ -17,14 +17,14 @@ The default key is `demo`.
 cd <your-project-folder>
 composer install
 ./vendor/bin/sail up -d
-./vendor/bin/sail artisan key:generate
-./vendor/bin/sail artisan migrate:fresh --seed
 ```
 
-### Migration and User Seeding
+### Optional Migration and User Seeding
 In your project folder run
 ```
-./vendor/bin/sail artisan migrate:fresh --seed
+./vendor/bin/sail artisan migrate --seed
+./vendor/bin/sail artisan db:seed
+
 ```
 The seeder will write the API token to the standard output!
 
@@ -38,7 +38,9 @@ If you want to run tests you may need the testing DB so run migrations for it by
 Go to http://localhost/ in your browser. You should see the home screen of the app.
 
 
-## Run Queue Worker and Scheduler
+## Optional Run Queue Worker and Scheduler
+
+They are started by the `docker/8.3/supervisord.conf` config. Occasionally you can run by
 
 ```
 ./vendor/bin/sail artisan schedule:work
@@ -57,12 +59,23 @@ command to trigger the process immediately.
 Run `./vendor/bin/sail artisan route:list --path=api` to list API routes.
 
 ## Get Latest Prices
+You may need API token. Get it by running.
+```
+./vendor/bin/sail artisan db:seed
+```
 
+Call
 ```curl -vvv --location 'http://localhost:80/api/latest-prices' --header 'Content-Type: application/json' --header 'Authorization: Bearer REPLACE-THIS-WITH-API-TOKEN'```
 
 The `REPLACE-THIS-WITH-API-TOKEN` part must be replaced with the API token that the DB seeder writes on stdout.
 
 ## Get Latest Prices Report
+You may need API token. Get it by running.
+```
+./vendor/bin/sail artisan db:seed
+```
+
+Call
 ```curl -vvv --location 'http://localhost:80/api/latest-prices/report' --header 'Content-Type: application/json' --header 'Authorization: Bearer REPLACE-THIS-WITH-API-TOKEN'```
 
 The `REPLACE-THIS-WITH-API-TOKEN` part must be replaced with the API token that the DB seeder writes on stdout.
