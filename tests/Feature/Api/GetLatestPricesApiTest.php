@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api;
 
+use App\Services\LatestPricesService;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Testing\TestResponse;
 use PHPUnit\Framework\Attributes\Test;
@@ -56,6 +57,24 @@ class GetLatestPricesApiTest extends TestCase
         $this->assertIsArray($response->json());
 
         $this->assertResponseHasValidDataForEachSymbol($response, $symbols);
+    }
+
+    #[Test]
+    public function exception_response_500_empty(): void
+    {
+        $this->actAsAuthenticated();
+        $symbols = $this->getSymbols();
+
+        Cache::clear();
+
+        $this->mock(LatestPricesService::class)
+            ->allows('getLatestPrices')
+            ->andThrowExceptions([new \Exception('aaaa')]);
+
+        $response = $this->callLatestPricesApiRoute();
+
+        $response->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
+        $this->assertIsArray($response->json());
     }
 
     protected function callLatestPricesApiRoute(): TestResponse

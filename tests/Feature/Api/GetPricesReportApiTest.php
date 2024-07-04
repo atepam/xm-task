@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Api;
 
+use App\Services\PriceReportService;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Testing\TestResponse;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,6 +46,24 @@ class GetPricesReportApiTest extends TestCase
         }
     }
 
+    #[Test]
+    public function exception_response_500_empty(): void
+    {
+        $this->actAsAuthenticated();
+        $symbols = $this->getSymbols();
+
+        Cache::clear();
+
+        $this->mock(PriceReportService::class)
+            ->allows('getPriceReport')
+            ->andThrowExceptions([new \Exception('aaaa')]);
+
+        $response = $this->callLatestPricesReportApiRoute();
+
+
+        $response->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
+        $this->assertIsArray($response->json());
+    }
 
     protected function callLatestPricesReportApiRoute(): TestResponse
     {
