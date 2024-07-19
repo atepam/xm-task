@@ -28,9 +28,9 @@ abstract class TestCase extends BaseTestCase
     /**
      * @throws ConfigurationException
      */
-    protected function getLatestPriceClient(): \Atepam\AlphavantageClient\Services\AlphaVantage\LatestPriceClient
+    protected function getLatestPriceClient(): \Atepam\AlphavantageClient\Services\LatestPrice
     {
-        return app(\Atepam\AlphavantageClient\Services\AlphaVantage\LatestPriceClient::class);
+        return app(\Atepam\AlphavantageClient\Services\LatestPrice::class);
     }
 
     protected function getMockResponseForValidLatestPriceRequest(): MockInterface

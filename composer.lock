@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3860f2d8ba8e36b8bbccaa835f506ff4",
+    "content-hash": "e0085018ad1b38c99ebc99559c8a732e",
     "packages": [
         {
             "name": "atepam/laravel-alphavantage-client",
-            "version": "v0.1.4",
+            "version": "0.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/atepam/laravel-alphavantage-client.git",
-                "reference": "0a6357dd431dec56205fb18cb7d8a6683ab9d322"
+                "reference": "d9fe9c91f44e5b74f02a7bad3e72e9ff6ced8940"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/atepam/laravel-alphavantage-client/zipball/0a6357dd431dec56205fb18cb7d8a6683ab9d322",
-                "reference": "0a6357dd431dec56205fb18cb7d8a6683ab9d322",
+                "url": "https://api.github.com/repos/atepam/laravel-alphavantage-client/zipball/d9fe9c91f44e5b74f02a7bad3e72e9ff6ced8940",
+                "reference": "d9fe9c91f44e5b74f02a7bad3e72e9ff6ced8940",
                 "shasum": ""
             },
             "require": {
@@ -63,9 +63,9 @@
             "description": "AlphaVantage Client for Laravel",
             "support": {
                 "issues": "https://github.com/atepam/laravel-alphavantage-client/issues",
-                "source": "https://github.com/atepam/laravel-alphavantage-client/tree/v0.1.4"
+                "source": "https://github.com/atepam/laravel-alphavantage-client/tree/0.1.5"
             },
-            "time": "2024-07-18T15:38:10+00:00"
+            "time": "2024-07-19T14:12:25+00:00"
         },
         {
             "name": "brick/math",
