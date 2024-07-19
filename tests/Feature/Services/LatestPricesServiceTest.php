@@ -43,6 +43,7 @@ class LatestPricesServiceTest extends TestCase
     public function db_has_no_data_for_tracked_symbol_and_cache_is_empty_so_service_not_loads_from_db(): void
     {
         $this->makeEmptyCacheAndDb();
+        $this->setApiRespondAsPerfect();
         $this->generateDataForSymbols(['NOT.TRACKED']);
         Cache::clear();
 

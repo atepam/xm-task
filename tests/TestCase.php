@@ -5,9 +5,6 @@ namespace Tests;
 use App\Exceptions\AlphaVantage\ConfigurationException;
 use App\Jobs\GetLatestPricesJob;
 use App\Models\User;
-use App\Services\AlphaVantage\ClientConfig;
-use App\Services\AlphaVantage\LatestPriceCandleFactory;
-use App\Services\AlphaVantage\LatestPriceClient;
 use App\Services\LatestPricesCaching;
 use Exception;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -27,33 +24,13 @@ abstract class TestCase extends BaseTestCase
 
     protected const SYMBOLS = ['IBM', 'SAIC', 'SAICX', 'BA', 'BAB', 'BABA', 'BAAPX', 'BAAAFX', 'BAAX39.SAO', 'AB3.LON', 'BA3.FRK', 'BA.LON', '600104.SHH'];
 
+
     /**
      * @throws ConfigurationException
      */
-    protected function getAlphaVantageClientConfigForDemoApi(string $apiKey = self::DEMO_API_KEY): ClientConfig
+    protected function getLatestPriceClient(): \Atepam\AlphavantageClient\Services\AlphaVantage\LatestPriceClient
     {
-        return new ClientConfig(
-            $apiKey,
-            Config::get('services.alphaVantage.apiHost')
-        );
-    }
-
-    /**
-     * Since the free api key has rate limits for several tests
-     * we use the publicly communicated demo api call.
-     *
-     * @throws ConfigurationException
-     */
-    protected function getLatestPriceClient(
-        $latestPriceCandleFactory = null,
-        string $apiKey = self::DEMO_API_KEY
-    ): LatestPriceClient
-    {
-        if ($latestPriceCandleFactory === null) {
-            $latestPriceCandleFactory = new LatestPriceCandleFactory();
-        }
-
-        return new LatestPriceClient($this->getAlphaVantageClientConfigForDemoApi($apiKey), $latestPriceCandleFactory);
+        return app(\Atepam\AlphavantageClient\Services\AlphaVantage\LatestPriceClient::class);
     }
 
     protected function getMockResponseForValidLatestPriceRequest(): MockInterface
@@ -126,6 +103,16 @@ abstract class TestCase extends BaseTestCase
     protected function setSeveralTrackedSymbols(): void
     {
         Config::set('services.alphaVantage.latestPricesSymbols', self::SYMBOLS);
+    }
+
+    protected function setApiRespondAsRateLimited(): void
+    {
+        Config::set('alphavantage.apiHost', 'http://localhost/avserver/rate-limit');
+    }
+
+    protected function setApiRespondAsPerfect(): void
+    {
+        Config::set('alphavantage.apiHost', 'http://localhost/avserver/perfect');
     }
 
     protected function generateDataForSymbols(array $symbols): void

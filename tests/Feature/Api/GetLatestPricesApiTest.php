@@ -33,6 +33,7 @@ class GetLatestPricesApiTest extends TestCase
     {
         Cache::clear();
         $this->actAsAuthenticated();
+        $this->setApiRespondAsPerfect();
         $symbols = $this->getSymbols();
 
         $this->generateDataForSymbols($symbols);

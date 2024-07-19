@@ -36,8 +36,8 @@ return [
     ],
 
     'alphaVantage' => [
-        'apiHost' => env('ALPHA_VANTAGE_API_HOST'),
-        'apiKey' => env('ALPHA_VANTAGE_API_KEY'),
+//        'apiHost' => env('ALPHA_VANTAGE_API_HOST'),
+//        'apiKey' => env('ALPHA_VANTAGE_API_KEY'),
 
         'latestPriceCacheTtl' => env('LATEST_PRICE_CACHE_TTL', 60),
         'latestPricesSymbols' => array_filter(

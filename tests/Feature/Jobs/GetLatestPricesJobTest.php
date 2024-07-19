@@ -20,7 +20,7 @@ class GetLatestPricesJobTest extends TestCase
     public function job_persists_candle(): void
     {
         $this->assertDatabaseEmpty(LatestPriceCandle::TABLE_NAME);
-
+        $this->setApiRespondAsPerfect();
         foreach ($this->getSymbols() as $symbol) {
             $this->runJobForSymbol($symbol);
 
@@ -34,6 +34,7 @@ class GetLatestPricesJobTest extends TestCase
         $this->setApiRespondAsInvalidData();
 
         $symbols = [self::TEST_SYMBOL];
+        $symbols = ['lofasz'];
 
         Log::shouldReceive('critical')->times(count($symbols));
 
@@ -85,6 +86,7 @@ class GetLatestPricesJobTest extends TestCase
     {
         Cache::clear();
         $this->assertDatabaseEmpty(LatestPriceCandle::TABLE_NAME);
+        $this->setApiRespondAsPerfect();
 
         $symbolToDelete = self::TEST_SYMBOL;
         $symbols = [$symbolToDelete, 'AAPL'];
@@ -108,6 +110,7 @@ class GetLatestPricesJobTest extends TestCase
     {
         Cache::clear();
         $this->assertDatabaseEmpty(LatestPriceCandle::TABLE_NAME);
+        $this->setApiRespondAsPerfect();
 
         $symbolToUpdate = self::TEST_SYMBOL;
         $symbols = [$symbolToUpdate, 'AAPL'];
@@ -133,6 +136,7 @@ class GetLatestPricesJobTest extends TestCase
     {
         Cache::clear();
         $this->assertDatabaseEmpty(LatestPriceCandle::TABLE_NAME);
+        $this->setApiRespondAsPerfect();
 
         $symbolToUpdate = self::TEST_SYMBOL;
         $symbols = [$symbolToUpdate, 'AAPL'];
@@ -163,6 +167,6 @@ class GetLatestPricesJobTest extends TestCase
 
     protected function setApiRespondAsInvalidData(): void
     {
-        Config::set('services.alphaVantage.apiHost', 'http://localhost/avserver/invalid');
+        Config::set('alphavantage.apiHost', 'http://localhost/avserver/invalid');
     }
 }

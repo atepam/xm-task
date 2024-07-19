@@ -22,6 +22,7 @@ class GetPricesReportApiTest extends TestCase
     public function api_response_has_proper_data(): void
     {
         $this->actAsAuthenticated();
+        $this->setApiRespondAsPerfect();
 
         $symbols = $this->getSymbols();
         $this->generateDataForSymbols($symbols);

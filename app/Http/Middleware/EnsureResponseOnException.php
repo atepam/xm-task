@@ -14,7 +14,8 @@ class EnsureResponseOnException
         $response = $next($request);
 
         if (!$response->isSuccessful()) {
-            $response->json([], Response::HTTP_INTERNAL_SERVER_ERROR);
+            $response->setData([]);
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         return $response;

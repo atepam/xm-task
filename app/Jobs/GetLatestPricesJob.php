@@ -2,7 +2,8 @@
 
 namespace App\Jobs;
 
-use App\Services\AlphaVantage\LatestPriceClient;
+use App\Models\LatestPriceCandle;
+use Atepam\AlphavantageClient\Services\AlphaVantage\LatestPriceClient;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -27,12 +28,14 @@ class GetLatestPricesJob implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle(LatestPriceClient $latestPriceClient): void
+    public function handle(LatestPriceClient $avLatestPrice): void
     {
         try {
-
-            $candle = $latestPriceClient->getLatestPrice($this->symbol);
-            $candle?->save();
+            $latestPriceData = $avLatestPrice->getLatestPrice($this->symbol);
+            if ($latestPriceData) {
+                $candle = new LatestPriceCandle($latestPriceData);
+                $candle->save();
+            }
 
         } catch (Throwable $exception) {
             $this->fail($exception);
